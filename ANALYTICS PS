@@ -12,6 +12,29 @@ from datetime import datetime
 from matplotlib import pyplot
 from pandas.plotting import autocorrelation_plot
 
+#Code to modify and save Dataset
+
+fp = r"C:\Users\acer\OneDrive\Desktop\Car Sales.xlsx - car_data (2).csv"
+df = pd.read_csv(fp, header=0)
+df['Date']= pd.to_datetime(df['Date'])
+df_1 = df[['Date','Body Style']]
+body_styles = df_1['Body Style'].unique()
+print(body_styles)
+
+
+df_2 = df_1.groupby(['Date', 'Body Style']).size().reset_index(name='Frequency')
+df_3 = df_2[df_2['Body Style'] == 'Hatchback']
+
+df_3 = df_3[['Date','Frequency']]
+df_3.set_index('Date')
+df_5 = df_3[['Date', 'Frequency']]
+df_5.set_index('Date',inplace=True)
+print(df_5)
+
+output_fp = r"C:\Users\acer\Downloads\Hatchback_Frequency1.csv"
+df_5.to_csv(output_fp)
+
+
 #IGNORE WARNINGS
 
 import warnings
