@@ -1,0 +1,267 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from statsmodels.tsa.arima.model import ARIMA
+from sklearn.model_selection import train_test_split
+import pandas as pd
+from datetime import datetime
+import matplotlib.pyplot as plt 
+from pandas import read_csv
+from datetime import datetime
+from matplotlib import pyplot
+from pandas.plotting import autocorrelation_plot
+
+#IGNORE WARNINGS
+
+import warnings
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
+
+warnings.simplefilter('ignore', ConvergenceWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
+from sklearn.exceptions import ConvergenceWarning
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
+warnings.simplefilter('ignore', ConvergenceWarning)
+
+from sklearn.exceptions import ConvergenceWarning
+
+warnings.simplefilter('ignore', ConvergenceWarning)
+
+#SUV GRAPHS
+
+fp = r"C:\Users\acer\Downloads\archive-_5_.csv"
+
+try:
+    
+    series = pd.read_csv(fp, header=0, parse_dates=[0], index_col=0)
+
+    
+    print("First few rows of the DataFrame:")
+    print(series.head())
+
+    series.plot()
+    plt.title("Time Series Plot") 
+    plt.xlabel("Date")  
+    plt.ylabel("Value")  
+    plt.show()
+    autocorrelation_plot(series)
+    pyplot.show()
+
+except FileNotFoundError as e:
+    print(f"FileNotFoundError: {e}")
+    print("Please ensure the file path is correct.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+
+pyplot.show()
+from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(series['Frequency'],lags=10)
+plt.title('Partial ACR Graph')
+plt.show()
+
+#SUV PREDICTIONS
+
+X = series.values
+size = int(len(X) * 0.8)
+train, test = X[0:size], X[size:len(X)]
+history = [x for x in train]
+predictions = list()
+
+for t in range(len(test)):
+	model = ARIMA(history, order=(15,1,5))
+	model_fit = model.fit()
+	output = model_fit.forecast()
+	yhat = output[0]
+	predictions.append(yhat)
+	obs = test[t]
+	history.append(obs)
+	print('predicted=%f, expected=%f' % (yhat, obs))
+
+rmse = sqrt(mean_squared_error(test, predictions))
+print('Test RMSE: %.3f' % rmse)
+
+pyplot.plot(test)
+pyplot.plot(predictions, color='red')
+pyplot.show()
+
+#SEDAN GRAPHS
+
+fp2 = r"C:\Users\acer\Downloads\Sedan_Frequency1.csv"
+
+try:
+    
+    series2 = pd.read_csv(fp2, header=0, parse_dates=[0], index_col=0)
+
+    
+    print("First few rows of the DataFrame:")
+    print(series2.head())
+
+    series2.plot()
+    plt.title("Time Series Plot") 
+    plt.xlabel("Date")  
+    plt.ylabel("Value")  
+    plt.show()
+    autocorrelation_plot(series2)
+    pyplot.show()
+
+except FileNotFoundError as e:
+    print(f"FileNotFoundError: {e}")
+    print("Please ensure the file path is correct.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+
+pyplot.show()
+from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(series2['Frequency'],lags=10)
+plt.title('Partial ACR Graph')
+plt.show()
+
+
+#SEDAN PREDICTIONS
+
+X2 = series2.values
+size2 = int(len(X2) * 0.8)
+train2, test2 = X2[0:size], X2[size:len(X)]
+history2 = [x2 for x2 in train2]
+predictions2 = list()
+
+for t2 in range(len(test2)):
+	model2 = ARIMA(history2, order=(10,1,4))
+	model_fit2 = model2.fit()
+	output2 = model_fit2.forecast()
+	yhat2 = output2[0]
+	predictions2.append(yhat2)
+	obs2 = test2[t2]
+	history2.append(obs2)
+	print('predicted=%f, expected=%f' % (yhat2, obs2))
+
+rmse2 = sqrt(mean_squared_error(test2, predictions2))
+print('Test RMSE: %.3f' % rmse2)
+
+pyplot.plot(test2)
+pyplot.plot(predictions2, color='red')
+pyplot.show()
+
+#PASSENGER GRAPHS
+
+fp3 = r"C:\Users\acer\Downloads\Passenger_Frequency1.csv"
+
+try:
+    
+    series3 = pd.read_csv(fp3, header=0, parse_dates=[0], index_col=0)
+
+    
+    print("First few rows of the DataFrame:")
+    print(series3.head())
+
+    series3.plot()
+    plt.title("Time Series Plot") 
+    plt.xlabel("Date")  
+    plt.ylabel("Value")  
+    plt.show()
+    autocorrelation_plot(series3)
+    pyplot.show()
+
+except FileNotFoundError as e:
+    print(f"FileNotFoundError: {e}")
+    print("Please ensure the file path is correct.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+
+pyplot.show()
+from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(series3['Frequency'],lags=10)
+plt.title('Partial ACR Graph')
+plt.show()
+
+
+#PASSENGER PREDICTIONS
+
+X3 = series3.values
+size3 = int(len(X3) * 0.8)
+train3, test3 = X3[0:size], X3[size:len(X)]
+history3 = [x3 for x3 in train]
+predictions3 = list()
+
+for t3 in range(len(test3)):
+	model3 = ARIMA(history3, order=(15,1,5))
+	model_fit3 = model3.fit()
+	output3 = model_fit3.forecast()
+	yhat3 = output3[0]
+	predictions3.append(yhat3)
+	obs3 = test3[t]
+	history3.append(obs3)
+	print('predicted=%f, expected=%f' % (yhat3, obs3))
+
+rmse3 = sqrt(mean_squared_error(test3, predictions3))
+print('Test RMSE: %.3f' % rmse3)
+
+pyplot.plot(test3)
+pyplot.plot(predictions3, color='red')
+pyplot.show()
+
+#HATCHBACK GRAPHS
+
+fp4 = r"C:\Users\acer\Downloads\Hatchback_Frequency1.csv"
+
+try:
+    
+    series4 = pd.read_csv(fp4, header=0, parse_dates=[0], index_col=0)
+
+    
+    print("First few rows of the DataFrame:")
+    print(series4.head())
+
+    series4.plot()
+    plt.title("Time Series Plot") 
+    plt.xlabel("Date")  
+    plt.ylabel("Value")  
+    plt.show()
+    autocorrelation_plot(series3)
+    pyplot.show()
+
+except FileNotFoundError as e:
+    print(f"FileNotFoundError: {e}")
+    print("Please ensure the file path is correct.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+
+pyplot.show()
+from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(series4['Frequency'],lags=10)
+plt.title('Partial ACR Graph')
+plt.show()
+
+#HATCHBACK PREDICTIONS
+
+X4 = series4.values
+size4 = int(len(X4) * 0.8)
+train4, test4 = X4[0:size], X4[size:len(X)]
+history4 = [x4 for x4 in train]
+predictions4 = list()
+
+for t4 in range(len(test4)):
+	model4 = ARIMA(history4, order=(15,1,5))
+	model_fit4 = model4.fit()
+	output4 = model_fit4.forecast()
+	yhat4 = output4[0]
+	predictions4.append(yhat4)
+	obs4 = test4[t]
+	history4.append(obs4)
+	print('predicted=%f, expected=%f' % (yhat4, obs4))
+
+rmse4 = sqrt(mean_squared_error(test4, predictions4))
+print('Test RMSE: %.3f' % rmse4)
+
+pyplot.plot(test4)
+pyplot.plot(predictions4, color='red')
+pyplot.show() 
+
